@@ -1,0 +1,236 @@
+/*
+  VOICE   깔끔하고 자신감 있는 전자제품 브랜드
+  IDEA    매장 쇼윈도처럼 제품 하나를 크게 보여주는 페이지
+  PICTURE 슬라이드마다 SVG로 그린 제품 (폰, TV, 냉장고)
+  COLOUR  흰 바탕 + 거의 검정 글자 + 파란 포인트
+  TYPE    Noto Sans KR, 굵은 제목 / 보통 본문
+  LAYOUT  헤더 → 큰 배너 → 탭 제품 목록 → 프로모션 → 혜택 → 푸터
+*/
+
+/* ---------- 1. 색과 기본값 (변수로 한 곳에서 관리) ---------- */
+:root {
+  color-scheme: light dark;
+  --bg:    light-dark(#ffffff, #0d0f14);
+  --soft:  light-dark(#f4f5f7, #181b22);
+  --ink:   light-dark(#111318, #f1f2f5);
+  --muted: light-dark(#5b606b, #a3a8b3);
+  --line:  light-dark(#e3e5e9, #2a2e38);
+  --blue:  #1f4fe0;
+  --radius: 20px;
+}
+:root[data-theme=light] { color-scheme: light; }
+:root[data-theme=dark]  { color-scheme: dark; }
+
+* { box-sizing: border-box; min-width: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.55 "Noto Sans KR", system-ui, sans-serif;
+  overflow-x: clip;
+}
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+/* ---------- 2. 헤더 ---------- */
+.header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--bg);
+  transition: box-shadow .2s;
+}
+.header.scrolled { box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+.header-inner {
+  max-width: 1240px; margin: 0 auto;
+  height: 64px; padding: 0 max(4vw, 16px);
+  display: flex; align-items: center; gap: 32px;
+}
+.logo { font-weight: 900; font-size: 24px; letter-spacing: .08em; }
+.nav { display: flex; gap: 28px; flex: 1; }
+.nav a { font-weight: 500; font-size: 15px; padding: 8px 0; border-bottom: 2px solid transparent; }
+.nav a:hover { border-color: var(--ink); }
+.header-icons { display: flex; gap: 4px; margin-left: auto; }
+.icon-btn {
+  position: relative; width: 44px; height: 44px;
+  border: 0; background: none; border-radius: 50%;
+  display: grid; place-items: center;
+}
+.icon-btn:hover { background: var(--soft); }
+.icon-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.cart-count {
+  position: absolute; top: 6px; right: 4px;
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
+  background: var(--blue); color: #fff; font-size: 11px; font-weight: 700;
+  display: grid; place-items: center;
+}
+.menu-btn { display: none; }
+
+/* ---------- 3. 버튼 (알약 모양) ---------- */
+.btn {
+  display: inline-block; padding: 12px 26px; border-radius: 999px;
+  font-weight: 700; font-size: 15px; border: 2px solid transparent;
+  transition: transform .15s, background .15s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-dark  { background: #111318; color: #fff; }
+.btn-light { background: #fff; color: #111318; }
+.btn-outline-dark  { border-color: #111318; color: #111318; }
+.btn-outline-light { border-color: #fff; color: #fff; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+/* ---------- 4. 히어로 슬라이드 ---------- */
+.hero { position: relative; }
+.hero-track {
+  position: relative;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;   /* 한 장씩 딱딱 멈추게 */
+  scrollbar-width: none;
+}
+.hero-track::-webkit-scrollbar { display: none; }
+.slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  min-height: clamp(460px, 70vh, 640px);
+  padding: 48px max(6vw, 20px) 96px;
+  display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  align-items: center; gap: 24px;
+}
+.slide-dark  { background: radial-gradient(circle at 75% 45%, #23338a, #070a1a 65%); color: #fff; }
+.slide-light { background: linear-gradient(120deg, #eef1f6, #d9dfea); color: #111318; }
+.slide-warm  { background: linear-gradient(120deg, #f6eee6, #e8dccd); color: #111318; }
+.slide-text { max-width: 520px; justify-self: end; width: 100%; }
+.slide-kicker { font-weight: 700; margin: 0 0 8px; opacity: .8; }
+.slide h1 {
+  margin: 0; font-size: clamp(34px, 5vw, 56px);
+  font-weight: 900; line-height: 1.1; text-wrap: balance;
+}
+.slide-text > p:not(.slide-kicker) { font-size: 17px; margin: 16px 0 0; opacity: .85; }
+.slide-pic { width: 100%; height: clamp(240px, 52vh, 460px); }
+.pic-phone { animation: float 5s ease-in-out infinite; }
+
+@keyframes float { 50% { transform: translateY(-14px); } }
+
+.hero-controls {
+  position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.85); backdrop-filter: blur(8px);
+  padding: 4px 8px; border-radius: 999px; color: #111318;
+}
+.arrow { width: 36px; height: 36px; border: 0; background: none; border-radius: 50%; font-size: 20px; }
+.arrow:hover { background: rgba(0,0,0,.08); }
+#pauseBtn { font-size: 11px; }
+.dots { display: flex; gap: 6px; }
+.dots button {
+  width: 8px; height: 8px; padding: 0; border: 0; border-radius: 4px;
+  background: #b9bec8; transition: width .3s, background .3s;
+}
+.dots button.on { width: 24px; background: #111318; }
+
+/* ---------- 5. 공통 섹션 ---------- */
+.section { max-width: 1240px; margin: 0 auto; padding: clamp(40px, 6vw, 80px) max(4vw, 16px); }
+.section-title { text-align: center; font-size: clamp(28px, 3.5vw, 40px); font-weight: 900; margin: 0 0 24px; }
+.note { text-align: center; color: var(--muted); font-size: 13px; margin-top: 20px; }
+
+/* ---------- 6. 탭 + 제품 카드 ---------- */
+.tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+.tab {
+  min-height: 44px; padding: 0 20px; border-radius: 999px;
+  border: 1px solid var(--line); background: none; font-weight: 500;
+}
+.tab.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+.grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 20px; }
+.card {
+  background: var(--soft); border-radius: var(--radius);
+  padding: 24px; display: flex; flex-direction: column;
+  animation: rise .4s ease both;
+  transition: transform .2s;
+}
+.card:hover { transform: translateY(-4px); }
+.card svg { width: 100%; height: 180px; margin-bottom: 16px; }
+.card .badge {
+  align-self: flex-start; font-size: 12px; font-weight: 700;
+  color: var(--blue); border: 1px solid var(--blue); border-radius: 999px; padding: 2px 10px; margin-bottom: 8px;
+}
+.card h3 { margin: 0; font-size: 18px; }
+.card p { margin: 4px 0 16px; color: var(--muted); font-size: 14px; }
+.card .price { font-weight: 900; font-size: 18px; margin-top: auto; white-space: nowrap; }
+.card .btn { margin-top: 14px; text-align: center; padding: 10px; }
+
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } }
+
+/* ---------- 7. 프로모션 ---------- */
+.promo { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 20px; }
+.promo-card {
+  border-radius: var(--radius); padding: 36px; min-height: 280px;
+  display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,1fr); align-items: center; gap: 16px;
+  overflow: hidden;
+}
+.promo-card h3 { font-size: clamp(22px, 2.4vw, 30px); margin: 0; font-weight: 900; line-height: 1.2; }
+.promo-card p { margin: 8px 0 22px; }
+.promo-blue { background: var(--blue); color: #fff; }
+.promo-gray { background: #e9ebef; color: #111318; }
+.promo-pic { width: 100%; height: 200px; transition: transform .3s; }
+.promo-card:hover .promo-pic { transform: scale(1.06) rotate(-2deg); }
+
+/* ---------- 8. 혜택 ---------- */
+.benefits {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 20px;
+}
+.benefits li { border-top: 2px solid var(--ink); padding-top: 16px; }
+.benefits strong { display: block; font-size: 18px; }
+.benefits span { color: var(--muted); font-size: 15px; }
+
+/* ---------- 9. 푸터 ---------- */
+.footer { background: var(--soft); padding: 56px max(4vw, 16px) 32px; margin-top: 40px; }
+.footer-cols { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 24px; }
+.footer h4 { margin: 0 0 12px; font-size: 15px; }
+.footer a { display: block; color: var(--muted); font-size: 14px; padding: 4px 0; }
+.footer a:hover { color: var(--ink); }
+.copy { max-width: 1240px; margin: 40px auto 0; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+
+/* ---------- 10. 토스트 알림 ---------- */
+.toast {
+  position: fixed; left: 50%; bottom: 24px; z-index: 100;
+  transform: translate(-50%, 120px);
+  background: #111318; color: #fff; padding: 14px 22px; border-radius: 999px;
+  font-weight: 500; transition: transform .3s;
+}
+.toast.show { transform: translate(-50%, 0); }
+
+/* ---------- 11. 반응형: 화면이 좁아지면 배치 바꾸기 ---------- */
+@media (max-width: 1000px) {
+  .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .benefits, .footer-cols { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 860px) {
+  .menu-btn { display: grid; }
+  .nav {
+    position: absolute; top: 64px; left: 0; right: 0;
+    flex-direction: column; gap: 0;
+    background: var(--bg); border-bottom: 1px solid var(--line);
+    padding: 8px max(4vw, 16px) 16px;
+    display: none;
+  }
+  .nav.open { display: flex; }
+  .nav a { padding: 12px 0; font-size: 17px; }
+  .promo { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .slide { grid-template-columns: 1fr; padding-top: 32px; text-align: center; }
+  .slide-text { justify-self: center; }
+  .btn-row { justify-content: center; }
+  .slide-pic { height: 220px; order: -1; }   /* 모바일에선 그림을 위로 */
+  .grid { grid-template-columns: 1fr; }
+  .promo-card { grid-template-columns: 1fr; padding: 28px; }
+  .promo-pic { height: 150px; }
+}
+
+/* 움직임을 줄이고 싶은 사용자를 위한 설정 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}

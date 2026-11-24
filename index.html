@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VELTA 전자</title>
+  <!-- 글꼴: 구글 폰트의 Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ① 제품 그림 모음 (한 번 그려두고 <use>로 여러 번 재사용) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#3a5bff"/><stop offset=".55" stop-color="#101a4a"/><stop offset="1" stop-color="#05070f"/>
+      </linearGradient>
+      <linearGradient id="metal" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#8b919c"/><stop offset=".5" stop-color="#e9ecf1"/><stop offset="1" stop-color="#7d838e"/>
+      </linearGradient>
+      <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ff8a5c"/><stop offset=".5" stop-color="#7b3cff"/><stop offset="1" stop-color="#0c1440"/>
+      </linearGradient>
+    </defs>
+    <symbol id="i-phone" viewBox="0 0 120 240">
+      <ellipse cx="60" cy="232" rx="44" ry="6" fill="#000" opacity=".25"/>
+      <rect x="10" y="4" width="100" height="220" rx="16" fill="url(#metal)"/>
+      <rect x="14" y="8" width="92" height="212" rx="13" fill="url(#glass)"/>
+      <circle cx="30" cy="28" r="9" fill="#05070f" stroke="#6d7380" stroke-width="2"/>
+      <circle cx="30" cy="52" r="9" fill="#05070f" stroke="#6d7380" stroke-width="2"/>
+      <circle cx="30" cy="76" r="9" fill="#05070f" stroke="#6d7380" stroke-width="2"/>
+      <path d="M20 12 L60 12 L24 120 Z" fill="#fff" opacity=".12"/>
+    </symbol>
+    <symbol id="i-tv" viewBox="0 0 320 220">
+      <ellipse cx="160" cy="212" rx="90" ry="6" fill="#000" opacity=".2"/>
+      <rect x="6" y="6" width="308" height="176" rx="6" fill="#111"/>
+      <rect x="12" y="12" width="296" height="164" rx="3" fill="url(#screen)"/>
+      <path d="M12 12 L170 12 L12 150 Z" fill="#fff" opacity=".1"/>
+      <rect x="140" y="182" width="40" height="18" fill="url(#metal)"/>
+      <rect x="100" y="198" width="120" height="8" rx="4" fill="url(#metal)"/>
+    </symbol>
+    <symbol id="i-fridge" viewBox="0 0 160 260">
+      <ellipse cx="80" cy="252" rx="70" ry="6" fill="#000" opacity=".2"/>
+      <rect x="6" y="4" width="148" height="244" rx="8" fill="#d9dde3"/>
+      <rect x="10" y="8" width="68" height="120" rx="4" fill="#f2c9b8"/>
+      <rect x="82" y="8" width="68" height="120" rx="4" fill="#b9d3e6"/>
+      <rect x="10" y="132" width="68" height="112" rx="4" fill="#c9dcc4"/>
+      <rect x="82" y="132" width="68" height="112" rx="4" fill="#ece3c8"/>
+      <rect x="70" y="40" width="4" height="60" rx="2" fill="#fff" opacity=".8"/>
+      <rect x="86" y="40" width="4" height="60" rx="2" fill="#fff" opacity=".8"/>
+    </symbol>
+    <symbol id="i-laptop" viewBox="0 0 300 200">
+      <ellipse cx="150" cy="190" rx="130" ry="6" fill="#000" opacity=".2"/>
+      <rect x="40" y="10" width="220" height="146" rx="8" fill="#1c1f26"/>
+      <rect x="48" y="18" width="204" height="130" rx="3" fill="url(#glass)"/>
+      <path d="M10 160 H290 L276 182 H24 Z" fill="url(#metal)"/>
+    </symbol>
+    <symbol id="i-watch" viewBox="0 0 140 220">
+      <rect x="40" y="0" width="60" height="220" rx="20" fill="#2b2f38"/>
+      <circle cx="70" cy="110" r="56" fill="url(#metal)"/>
+      <circle cx="70" cy="110" r="48" fill="#05070f"/>
+      <path d="M70 72 V110 L96 122" stroke="#5f86ff" stroke-width="6" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-buds" viewBox="0 0 200 160">
+      <rect x="30" y="60" width="140" height="90" rx="40" fill="#eef0f4" stroke="#c9ced6" stroke-width="2"/>
+      <ellipse cx="72" cy="58" rx="30" ry="34" fill="#fafbfd" stroke="#c9ced6" stroke-width="2"/>
+      <ellipse cx="128" cy="58" rx="30" ry="34" fill="#fafbfd" stroke="#c9ced6" stroke-width="2"/>
+      <circle cx="72" cy="56" r="10" fill="#2b2f38"/><circle cx="128" cy="56" r="10" fill="#2b2f38"/>
+    </symbol>
+  </svg>
+
+  <!-- ② 머리말(헤더): 로고 + 메뉴 + 아이콘 -->
+  <header class="header" id="header">
+    <div class="header-inner">
+      <a href="#" class="logo">VELTA</a>
+
+      <nav class="nav" id="nav" aria-label="주요 메뉴">
+        <a href="#products">모바일</a>
+        <a href="#products">TV &amp; 오디오</a>
+        <a href="#products">가전</a>
+        <a href="#products">IT</a>
+        <a href="#benefits">혜택</a>
+        <a href="#footer">고객지원</a>
+      </nav>
+
+      <div class="header-icons">
+        <button class="icon-btn" aria-label="검색">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        </button>
+        <button class="icon-btn" aria-label="장바구니">
+          <svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h11L21 7H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="icon-btn menu-btn" id="menuBtn" aria-label="메뉴 열기" aria-expanded="false">
+          <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ③ 메인 배너(히어로): 옆으로 넘어가는 슬라이드 -->
+    <section class="hero" aria-label="메인 배너">
+      <div class="hero-track" id="heroTrack">
+        <article class="slide slide-dark">
+          <div class="slide-text">
+            <p class="slide-kicker">새로운 플래그십</p>
+            <h1>벨타 S 울트라</h1>
+            <p>밤에도 선명한 2억 화소 카메라, 하루 종일 가는 배터리.</p>
+            <div class="btn-row">
+              <a href="#products" class="btn btn-light">더 알아보기</a>
+              <a href="#products" class="btn btn-outline-light">구매하기</a>
+            </div>
+          </div>
+          <svg class="slide-pic pic-phone"><use href="#i-phone"/></svg>
+        </article>
+
+        <article class="slide slide-light">
+          <div class="slide-text">
+            <p class="slide-kicker">네오 비전 OLED</p>
+            <h1>거실이 영화관이 되는 순간</h1>
+            <p>깊은 검정과 눈부신 색, 98형까지 고르는 대화면.</p>
+            <div class="btn-row">
+              <a href="#products" class="btn btn-dark">더 알아보기</a>
+              <a href="#products" class="btn btn-outline-dark">구매하기</a>
+            </div>
+          </div>
+          <svg class="slide-pic pic-tv"><use href="#i-tv"/></svg>
+        </article>
+
+        <article class="slide slide-warm">
+          <div class="slide-text">
+            <p class="slide-kicker">큐브 냉장고</p>
+            <h1>우리 집 색으로 고르는 냉장고</h1>
+            <p>문마다 다른 컬러 패널, 언제든 바꿔 끼우세요.</p>
+            <div class="btn-row">
+              <a href="#products" class="btn btn-dark">더 알아보기</a>
+              <a href="#products" class="btn btn-outline-dark">구매하기</a>
+            </div>
+          </div>
+          <svg class="slide-pic pic-fridge"><use href="#i-fridge"/></svg>
+        </article>
+      </div>
+
+      <div class="hero-controls">
+        <button class="arrow" id="prevBtn" aria-label="이전 슬라이드">‹</button>
+        <div class="dots" id="dots"></div>
+        <button class="arrow" id="nextBtn" aria-label="다음 슬라이드">›</button>
+        <button class="arrow" id="pauseBtn" aria-label="자동 넘김 멈춤">❚❚</button>
+      </div>
+    </section>
+
+    <!-- ④ 제품 목록: 탭을 누르면 JavaScript가 카드를 바꿔 그림 -->
+    <section class="section" id="products">
+      <h2 class="section-title">추천 제품</h2>
+      <div class="tabs" role="tablist" id="tabs">
+        <button role="tab" class="tab on" data-cat="mobile" aria-selected="true">모바일</button>
+        <button role="tab" class="tab" data-cat="tv" aria-selected="false">TV &amp; 오디오</button>
+        <button role="tab" class="tab" data-cat="home" aria-selected="false">가전</button>
+        <button role="tab" class="tab" data-cat="it" aria-selected="false">IT</button>
+      </div>
+      <div class="grid" id="grid" role="tabpanel"></div>
+      <p class="note">제품명과 가격은 연습용 샘플 데이터예요.</p>
+    </section>
+
+    <!-- ⑤ 큰 프로모션 카드 2개 -->
+    <section class="section promo">
+      <a href="#products" class="promo-card promo-blue">
+        <div>
+          <h3>새 학기 노트북 할인</h3>
+          <p>벨타 북 시리즈 최대 20% 혜택</p>
+          <span class="btn btn-light">혜택 보기</span>
+        </div>
+        <svg class="promo-pic"><use href="#i-laptop"/></svg>
+      </a>
+      <a href="#products" class="promo-card promo-gray">
+        <div>
+          <h3>워치 + 버즈 함께 사면</h3>
+          <p>세트 구매 시 추가 5만 원 할인</p>
+          <span class="btn btn-dark">혜택 보기</span>
+        </div>
+        <svg class="promo-pic"><use href="#i-watch"/></svg>
+      </a>
+    </section>
+
+    <!-- ⑥ 쇼핑 혜택 안내 -->
+    <section class="section" id="benefits">
+      <h2 class="section-title">벨타닷컴 쇼핑 혜택</h2>
+      <ul class="benefits">
+        <li><strong>무료 배송</strong><span>전 제품 무료 배송·설치</span></li>
+        <li><strong>정품 보증</strong><span>공식 스토어 정품 1년 보증</span></li>
+        <li><strong>보상 판매</strong><span>쓰던 기기 반납하면 추가 할인</span></li>
+        <li><strong>무이자 할부</strong><span>최대 24개월 무이자</span></li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- ⑦ 꼬리말(푸터) -->
+  <footer class="footer" id="footer">
+    <div class="footer-cols">
+      <div><h4>제품</h4><a href="#">모바일</a><a href="#">TV &amp; 오디오</a><a href="#">가전</a><a href="#">IT</a></div>
+      <div><h4>쇼핑 도움말</h4><a href="#">주문 조회</a><a href="#">배송 안내</a><a href="#">반품·교환</a></div>
+      <div><h4>고객지원</h4><a href="#">제품 등록</a><a href="#">서비스 센터</a><a href="#">자주 묻는 질문</a></div>
+      <div><h4>회사 소개</h4><a href="#">VELTA 이야기</a><a href="#">채용</a><a href="#">뉴스룸</a></div>
+    </div>
+    <p class="copy">© 2026 VELTA Electronics. 학습용으로 만든 가상의 브랜드입니다.</p>
+  </footer>
+
+  <!-- 알림 토스트 (장바구니 담기 시 잠깐 뜸) -->
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
